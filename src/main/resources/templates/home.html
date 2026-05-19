@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>MyShop</title>
-    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 <body>
     <header>
@@ -20,87 +20,19 @@
     </header>
 
     <div class="main-content">
-        <div class="item">
-            <p class="item-name">
-                Ołówek
-            </p>
+        <div class="item" th:each="item: ${items}">
+            <p class="item-name" th:text="${item.name}"></p>
 
-            <img src="https://iheartcraftythings.com/wp-content/uploads/2021/05/Pencil-DRAWING-%E2%80%93-STEP-10.jpg">
+            <img th:src="@{${item.imgURL}}">
 
             <div>
                 <span>Cena: </span>
-                <span>2.50 </span>
+                <span th:text="${item.price}"></span>
                 <span>zł</span>
             </div>
 
             <a href="" class="add-btn">Dodaj</a>
         </div>
-
-        <div class="item">
-            <p class="item-name">
-                Ołówek
-            </p>
-
-            <img src="https://iheartcraftythings.com/wp-content/uploads/2021/05/Pencil-DRAWING-%E2%80%93-STEP-10.jpg">
-
-            <div>
-                <span>Cena: </span>
-                <span>2.50 </span>
-                <span>zł</span>
-            </div>
-
-            <a href="" class="add-btn">Dodaj</a>
-        </div>
-
-        <div class="item">
-            <p class="item-name">
-                Ołówek
-            </p>
-
-            <img src="https://iheartcraftythings.com/wp-content/uploads/2021/05/Pencil-DRAWING-%E2%80%93-STEP-10.jpg">
-
-            <div>
-                <span>Cena: </span>
-                <span>2.50 </span>
-                <span>zł</span>
-            </div>
-
-            <a href="" class="add-btn">Dodaj</a>
-        </div>
-
-        <div class="item">
-            <p class="item-name">
-                Ołówek
-            </p>
-
-            <img src="https://iheartcraftythings.com/wp-content/uploads/2021/05/Pencil-DRAWING-%E2%80%93-STEP-10.jpg">
-
-            <div>
-                <span>Cena: </span>
-                <span>2.50 </span>
-                <span>zł</span>
-            </div>
-
-            <a href="" class="add-btn">Dodaj</a>
-        </div>
-
-        <div class="item">
-            <p class="item-name">
-                Ołówek
-            </p>
-
-            <img src="https://iheartcraftythings.com/wp-content/uploads/2021/05/Pencil-DRAWING-%E2%80%93-STEP-10.jpg">
-
-            <div>
-                <span>Cena: </span>
-                <span>2.50 </span>
-                <span>zł</span>
-            </div>
-
-            <a href="" class="add-btn">Dodaj</a>
-        </div>
-
-    
     </div>
 </body>
 </html>

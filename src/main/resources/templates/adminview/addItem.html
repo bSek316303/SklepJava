@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>MyShop</title>
-    <link rel="stylesheet" type="text/css" href="../../static/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 <body>
     <header>
@@ -15,14 +15,14 @@
         <div class="summary">
             <h1>Dodaj </h1>
 
-            <form>
+            <form th:action="@{/admin}" method="post">
                 <label>Nazwa</label>
-                <input type="text">
+                <input type="text" name="name" required>
                 <label >Cena</label>
-                <input type="text">
+                <input type="numer" min="0.01" step="0.01" name="price" required>
                 <label>urlImg</label>
-                <input type="text">
-                <button>Dodaj</button>
+                <input type="text" name="imgURL">
+                <button type="submit">Dodaj</button>
             </form>
 
         </div>
