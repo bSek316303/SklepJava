@@ -27,5 +27,5 @@ public class Item {
         this.name = name;
         this.price = price;
         this.imgURL = imgURL;
-    }
+    } // Przy tworzeniu ten obiekt jeszcze nie ma klucza z @GeneratedValue. Ten klucz pojawia się dopiero przy .save() czyli dodaniu obiektu do bazy.
 }

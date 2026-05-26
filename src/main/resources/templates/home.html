@@ -7,7 +7,6 @@
 </head>
 <body>
 <header th:replace="fragments/header :: ShopHeader"></header>
-
     <div class="main-content">
         <div class="item" th:each="item: ${items}">
             <p class="item-name" th:text="${item.name}"></p>
@@ -20,7 +19,7 @@
                 <span>zł</span>
             </div>
 
-            <a href="" class="add-btn">Dodaj</a>
+            <a th:href="@{'/add/' + ${item.id}}" class="add-btn">Dodaj do koszyka</a>
         </div>
     </div>
 </body>
