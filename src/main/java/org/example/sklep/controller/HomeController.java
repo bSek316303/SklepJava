@@ -1,30 +1,47 @@
 package org.example.sklep.controller;
 
-import model.Item;
+import jakarta.servlet.http.HttpSession;
+import org.example.sklep.model.Item;
+import org.example.sklep.repository.ItemRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class HomeController {
-    static List<Item> items = new ArrayList<>();
-    static {
-        items.add(new Item("Piłka do koszykówki", new BigDecimal("149.99")
-                , "https://sklepkoszykarski.pl/userdata/public/gfx/7438/Pilka-do-koszykowki-Wilson-NBA-Authentic-InOut.jpg"));
-        items.add(new Item("Koszulka lakers", new BigDecimal("299.99")
-                , "https://www.intersport.pl/media/front_thumbnails/webp650px/catalog_product_k_o_koszulka-do-koszykowki-meska-nike-los-angeles-lakers-icon-edition-2022-23-dn2009-287353kw__h__650.webp"));
-        items.add(new Item("Pompka elektryczna", new BigDecimal("99.99")
-                , "https://m.media-amazon.com/images/I/51xJsY+3uIL._AC_SL1500_.jpg"));
+    private final ItemRepository itemRepository;
+
+    @Autowired
+    public HomeController(ItemRepository itemRepository) {
+        this.itemRepository = itemRepository;
     }
 
     @GetMapping("/")
     //@ResponseBody
     public String home(Model model) {
-        model.addAttribute("items",items);
+        model.addAttribute("items", itemRepository.findAll());
+        return "home";
+    }
+
+    @GetMapping("/add/{itemId}")
+    public String addItemToCart(@PathVariable("itemId") long itemId, Model model, HttpSession httpSession){
+        List<Item> cart = (List<Item>) httpSession.getAttribute("cart");
+        if(cart == null){
+            cart = new ArrayList<>();
+        }
+        Optional<Item> oItem = itemRepository.findById(itemId);
+        if(oItem.isPresent()){
+            Item item = oItem.get();
+            cart.add(item);
+            httpSession.setAttribute("cart", cart);
+        }
+        model.addAttribute("items", itemRepository.findAll());
         return "home";
     }
 }
