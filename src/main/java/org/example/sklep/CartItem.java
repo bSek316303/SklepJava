@@ -17,6 +17,13 @@ public class CartItem {
         this.price = item.getPrice();
     }
 
+    public boolean isEqual(Item item){
+        if(item == null || this.getItem() == null){
+            return false;
+        }
+        return this.getItem().getId() == item.getId();
+    }
+
     public void increaseCounter() {
         counter++;
         recalculate();

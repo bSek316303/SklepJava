@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -18,14 +19,18 @@ public class Cart {
     private int counter = 0;
     private BigDecimal sum = BigDecimal.ZERO;
 
+    private Optional<CartItem> getCartItemByItem(Item item){
+        return cartItems.stream().filter(cartItem-> cartItem.isEqual(item)).findFirst();
+    }
+
     public void addItem(Item item) {
         if (item == null) {
             return;
         }
 
-        CartItem cartItem = findCartItemByItemId(item.getId());
+        Optional<CartItem> cartItem = getCartItemByItem(item);
         if (cartItem != null) {
-            cartItem.increaseCounter();
+            cartItem.get().increaseCounter();
         } else {
             cartItems.add(new CartItem(item));
         }
@@ -38,13 +43,13 @@ public class Cart {
             return;
         }
 
-        CartItem cartItem = findCartItemByItemId(item.getId());
+        Optional<CartItem> cartItem = getCartItemByItem(item);
         if (cartItem == null) {
             return;
         }
 
-        if (cartItem.getCounter() > 1) {
-            cartItem.decreaseCounter();
+        if (cartItem.get().getCounter() > 1) {
+            cartItem.get().decreaseCounter();
         } else {
             cartItems.remove(cartItem);
         }
@@ -62,18 +67,7 @@ public class Cart {
         }
     }
 
-    private CartItem findCartItemByItemId(long itemId) {
-        for (CartItem cartItem : cartItems) {
-            if (cartItem.getItem().getId() == itemId) {
-                return cartItem;
-            }
-        }
-
-        return null;
-    }
-
     public int size(){
-        System.out.println(counter);
         return counter;
     }
 }

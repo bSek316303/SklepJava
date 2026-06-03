@@ -1,23 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-  <link rel="stylesheet" type="text/css" href="/style.css">
-
+    <title>MyShop</title>
+    <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
+<body>
 <header th:fragment="ShopHeader">
-  <span class="title">MyShop</span>
+    <span class="title">MyShop</span>
 
-  <a href="" class="cart-ico">
-    <div>
-      <span>Koszyk</span>
-      <span th:if="${session.cart != null}" th:text="${session.cart.size()}"></span>
-      <span th:unless="${session.cart != null}">0</span>
-      <span>(0)</span>
-      <span>zł</span>
+    <div class="cart-ico">
+        <span>Koszyk</span>
+        <span th:text="${cart.counter}">0</span>
+        <span>(</span>
+        <span th:text="${cart.sum}">0</span>
+        <span>)</span>
+        <span>zł</span>
     </div>
-  </a>
 </header>
 </body>
 </html>

@@ -70,12 +70,7 @@ header{
 }
 
 .cart-ico{
-    text-decoration: none;
     color: white;
-}
-
-.cart-ico:hover{
-    color: brown;
 }
 
 table, tr {
