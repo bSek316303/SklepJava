@@ -1,6 +1,7 @@
 package org.example.sklep.controller;
 
 import org.example.sklep.Cart;
+import org.example.sklep.ItemOperation;
 import org.example.sklep.model.Item;
 import org.example.sklep.repository.ItemRepository;
 import org.example.sklep.services.CartService;
@@ -35,7 +36,7 @@ public class HomeController {
 
     @GetMapping("/add/{itemId}")
     public String addItemToCart(@PathVariable("itemId") Long itemId) {
-        cartService.addItemById(itemId);
+        cartService.executeOnItem(itemId, ItemOperation.ADD_OR_INCREASE);
         return "redirect:/";
     }
 }

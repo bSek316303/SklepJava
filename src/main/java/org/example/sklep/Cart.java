@@ -35,7 +35,7 @@ public class Cart {
         }
     }
 
-    public void addItem(Item item) {
+    public void addOrIncreaseItem(Item item) {
         if (item == null) {
             return;
         }
@@ -48,7 +48,7 @@ public class Cart {
         }
     }
 
-    public void removeItem(Item item) {
+    public void decreaseItem(Item item) {
         if (item == null) {
             return;
         }
@@ -62,10 +62,11 @@ public class Cart {
             cartItem.get().decreaseCounter();
         } else {
             cartItems.remove(cartItem);
-            if (cartItem.get().getCounter() <= 0){
-                cartItems.remove(cartItem.get());
-            }
         }
+    }
+
+    public void removeItem(Item item){
+        cartItems.remove(findCartItemById(item.getId()).orElse(null));
     }
 
     public int size() {
