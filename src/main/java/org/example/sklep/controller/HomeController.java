@@ -3,6 +3,7 @@ package org.example.sklep.controller;
 import org.example.sklep.Cart;
 import org.example.sklep.model.Item;
 import org.example.sklep.repository.ItemRepository;
+import org.example.sklep.services.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,34 +15,27 @@ import java.util.Optional;
 
 @Controller
 public class HomeController {
-    private final ItemRepository itemRepository;
-    private final Cart cart;
+    CartService cartService;
 
     @Autowired
-    public HomeController(ItemRepository itemRepository, Cart cart) {
-        this.itemRepository = itemRepository;
-        this.cart = cart;
+    public HomeController(CartService cartService, Cart cart) {
+        this.cartService = cartService;
     }
 
     @ModelAttribute("cart")
     public Cart cartInModel() {
-        return cart;
+        return cartService.getCart();
     }
 
     @GetMapping("/")
     public String home(Model model) {
-        model.addAttribute("items", itemRepository.findAll());
+        model.addAttribute("items", cartService.getAllItems());
         return "home";
     }
 
     @GetMapping("/add/{itemId}")
     public String addItemToCart(@PathVariable("itemId") Long itemId) {
-        addItemById(itemId);
+        cartService.addItemById(itemId);
         return "redirect:/";
-    }
-
-    private void addItemById(Long itemId) {
-        Optional<Item> oItem = itemRepository.findById(itemId);
-        oItem.ifPresent(cart::addItem);
     }
 }

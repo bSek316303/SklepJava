@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 public class CartItem {
     private final Item item;
     private int counter;
-    private BigDecimal price;
+    private final BigDecimal price;
 
     public CartItem(Item item) {
         this.item = item;
@@ -26,15 +26,10 @@ public class CartItem {
 
     public void increaseCounter() {
         counter++;
-        recalculate();
     }
 
     public void decreaseCounter() {
         counter--;
-        recalculate();
     }
-
-    private void recalculate() {
-        price = item.getPrice().multiply(BigDecimal.valueOf(counter));
-    }
+    public BigDecimal combinedPrice() { return price.multiply(BigDecimal.valueOf(counter)); }
 }
