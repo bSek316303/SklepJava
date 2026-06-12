@@ -16,11 +16,23 @@ import java.util.Optional;
 @Getter
 public class Cart {
     private final List<CartItem> cartItems = new ArrayList<>();
-    private int counter = 0;
-    private BigDecimal sum = BigDecimal.ZERO;
 
     private Optional<CartItem> getCartItemByItem(Item item){
-        return cartItems.stream().filter(cartItem-> cartItem.isEqual(item)).findFirst();
+        return cartItems.stream().
+                filter(cartItem-> cartItem.isEqual(item)).findFirst();
+    }
+
+    public Optional<CartItem> findCartItemById(long itemId) {
+        return cartItems.stream()
+                .filter(cartItem -> cartItem.getItem() != null && cartItem.getItem().getId() == itemId)
+                .findFirst();
+    }
+
+    public void addItemById(long itemId){
+        Optional<CartItem> cartItem = findCartItemById(itemId);
+        if(cartItem.isPresent()){
+            cartItem.get().increaseCounter();
+        }
     }
 
     public void addItem(Item item) {
@@ -29,13 +41,11 @@ public class Cart {
         }
 
         Optional<CartItem> cartItem = getCartItemByItem(item);
-        if (cartItem != null) {
+        if (cartItem.isPresent()) {
             cartItem.get().increaseCounter();
         } else {
             cartItems.add(new CartItem(item));
         }
-
-        recalculatePriceAndCounter();
     }
 
     public void removeItem(Item item) {
@@ -52,22 +62,21 @@ public class Cart {
             cartItem.get().decreaseCounter();
         } else {
             cartItems.remove(cartItem);
-        }
-
-        recalculatePriceAndCounter();
-    }
-
-    public void recalculatePriceAndCounter() {
-        counter = 0;
-        sum = BigDecimal.ZERO;
-
-        for (CartItem cartItem : cartItems) {
-            counter += cartItem.getCounter();
-            sum = sum.add(cartItem.getPrice());
+            if (cartItem.get().getCounter() <= 0){
+                cartItems.remove(cartItem.get());
+            }
         }
     }
 
-    public int size(){
-        return counter;
+    public int size() {
+        return cartItems.stream()
+                .mapToInt(CartItem::getCounter)
+                .sum();
+    }
+
+    public BigDecimal price() {
+        return cartItems.stream()
+                .map(item -> item.getPrice().multiply(BigDecimal.valueOf(item.getCounter())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }
