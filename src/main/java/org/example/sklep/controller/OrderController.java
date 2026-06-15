@@ -3,6 +3,7 @@ package org.example.sklep.controller;
 import org.example.sklep.Cart;
 import org.example.sklep.CartItem;
 import org.example.sklep.ItemOperation;
+import org.example.sklep.dto.OrderDto;
 import org.example.sklep.model.Item;
 import org.example.sklep.services.CartService;
 import org.springframework.stereotype.Controller;
@@ -43,5 +44,13 @@ public class OrderController {
     public String removeItemFromCart(@PathVariable("itemId") Long itemId){
         cartService.executeOnItem(itemId, ItemOperation.REMOVE);
         return "redirect:/order/cart";
+    }
+
+    @GetMapping("/summary")
+    public String showSummary() { return "summary"; }
+
+    @PostMapping("/saveorder")
+    public String saveOrder(OrderDto orderDto) {
+        return "redirect:/";
     }
 }
