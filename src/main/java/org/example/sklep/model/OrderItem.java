@@ -1,19 +1,24 @@
 package org.example.sklep.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 @Entity
 @NoArgsConstructor
 @Getter
-public class OrderItem {
+@Data
+public class OrderItem implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "orderitemid")
     private Long orderItemId;
+    @Column(name = "orderid")
     private Long orderId;
+    @Column(name = "itemid")
     private Long itemId;
     private int amount;
 
