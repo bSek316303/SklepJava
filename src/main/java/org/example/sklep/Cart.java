@@ -54,14 +54,12 @@ public class Cart {
         }
 
         Optional<CartItem> cartItem = getCartItemByItem(item);
-        if (cartItem == null) {
-            return;
-        }
+        if(cartItem.isEmpty()) return;
 
         if (cartItem.get().getCounter() > 1) {
             cartItem.get().decreaseCounter();
         } else {
-            cartItems.remove(cartItem);
+            cartItems.remove(cartItem.get());
         }
     }
 
