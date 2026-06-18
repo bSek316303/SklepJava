@@ -11,6 +11,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Getter
 @Data
+@Table(name = "orderitems")
 public class OrderItem implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
