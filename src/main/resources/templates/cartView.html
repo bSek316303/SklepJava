@@ -40,7 +40,7 @@
         <div class="summary">
             <p><span>Do zapłaty </span><span th:text="${cart.price()}">0</span><span> zł</span></p>
         </div>
-        <a href="" class="add-btn">Dalej</a>
+        <a th:href="@{'/order/summary'}" class="add-btn">Dalej</a>
     </div>
 </div>
 </body>

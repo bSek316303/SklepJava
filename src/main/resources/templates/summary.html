@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyShop</title>
+    <link rel="stylesheet" type="text/css" href="/style.css">
+</head>
+<body>
+<header th:replace="~{fragments/header :: ShopHeader}"></header>
+
+<div class="main-content">
+    <table cellspacing="0" cellpadding="12" style="width: 100%; border: none;">
+        <tr style="border: none;">
+            <td style="width: 65%; vertical-align: top; border: none;">
+                <h2>Podsumowanie koszyka</h2>
+
+                <table cellspacing="0" cellpadding="8" style="width: 100%;">
+                    <tr>
+                        <th style="width: 40px;">No.</th>
+                        <th style="width: 60px;"></th>
+                        <th>Produkt</th>
+                        <th style="width: 80px;">Ilość</th>
+                        <th style="width: 100px;">Suma</th>
+                    </tr>
+                    <tr th:each="cartItem, itemStat : ${cart.cartItems}">
+                        <td th:text="${itemStat.count}">1</td>
+                        <td>
+                            <img th:src="@{${cartItem.item.imgURL}}" alt="">
+                        </td>
+                        <td th:text="${cartItem.item.name}">Nazwa produktu</td>
+                        <td th:text="${cartItem.counter}">1</td>
+                        <td>
+                            <span th:text="${cartItem.combinedPrice()}">0</span>
+                            <span>zł</span>
+                        </td>
+                    </tr>
+                </table>
+
+                <table cellspacing="0" cellpadding="10" style="width: 100%; margin-top: 20px;">
+                    <tr>
+                        <th>Do zapłaty</th>
+                        <th style="text-align: right;">
+                            <span th:text="${cart.price()}">0</span>
+                            <span>zł</span>
+                        </th>
+                    </tr>
+                </table>
+            </td>
+
+            <td style="width: 35%; vertical-align: top; border: none;">
+                <h2>Dane do zamówienia</h2>
+
+                <form th:action="@{/order/saveorder}" method="post">
+                    <table cellspacing="0" cellpadding="8" style="width: 100%; border: none;">
+                        <tr style="border: none;">
+                            <td style="border: none;">
+                                <label>Imię</label>
+                                <input type="text" name="firstName" required>
+                            </td>
+                        </tr>
+                        <tr style="border: none;">
+                            <td style="border: none;">
+                                <label>Nazwisko</label>
+                                <input type="text" name="lastName" required>
+                            </td>
+                        </tr>
+                        <tr style="border: none;">
+                            <td style="border: none;">
+                                <label>Adres</label>
+                                <input type="text" name="address" required>
+                            </td>
+                        </tr>
+                        <tr style="border: none;">
+                            <td style="border: none;">
+                                <label>Kod pocztowy</label>
+                                <input type="text" name="postCode" required>
+                            </td>
+                        </tr>
+                        <tr style="border: none;">
+                            <td style="border: none;">
+                                <label>Miasto</label>
+                                <input type="text" name="city" required>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <button type="submit" class="add-btn">Zamów</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>

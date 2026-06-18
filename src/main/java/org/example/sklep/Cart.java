@@ -78,4 +78,6 @@ public class Cart {
                 .map(item -> item.getPrice().multiply(BigDecimal.valueOf(item.getCounter())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
+
+    public void cleanCart(){ cartItems.clear(); }
 }

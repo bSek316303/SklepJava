@@ -3,8 +3,11 @@ package org.example.sklep.controller;
 import org.example.sklep.Cart;
 import org.example.sklep.CartItem;
 import org.example.sklep.ItemOperation;
+import org.example.sklep.dto.OrderDto;
 import org.example.sklep.model.Item;
+import org.example.sklep.model.Order;
 import org.example.sklep.services.CartService;
+import org.example.sklep.services.OrderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +17,11 @@ import java.util.Optional;
 @RequestMapping("/order")
 public class OrderController {
     private final CartService cartService;
+    private final OrderService orderService;
 
-    public OrderController(CartService cartService) {
+    public OrderController(CartService cartService, OrderService orderService) {
         this.cartService = cartService;
+        this.orderService = orderService;
     }
 
     @GetMapping("/cart")
@@ -43,5 +48,14 @@ public class OrderController {
     public String removeItemFromCart(@PathVariable("itemId") Long itemId){
         cartService.executeOnItem(itemId, ItemOperation.REMOVE);
         return "redirect:/order/cart";
+    }
+
+    @GetMapping("/summary")
+    public String showSummary() { return "summary"; }
+
+    @PostMapping("/saveorder")
+    public String saveOrder(OrderDto orderDto) {
+        orderService.saveOrder(orderDto);
+        return "redirect:/";
     }
 }
